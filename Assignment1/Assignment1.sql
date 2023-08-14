@@ -2,14 +2,14 @@ create database Programs;
 
 use Programs;
 
-create Table Student (
+create Table IF NOT EXISTS Student (
 regNumber INT PRIMARY KEY,
 Name Varchar(100),
 email Varchar(150),
 phone varchar(20)
 );
 
-create Table Instructor (
+create Table IF NOT EXISTS Instructor (
 EmpID INT PRIMARY KEY,
 Name Varchar(100),
 email Varchar(150),
@@ -17,24 +17,24 @@ Designation varchar(100),
 phone Varchar(20)
 );
 
-create Table Course(
+create Table IF NOT EXISTS Course(
 CouseID Int PRIMARY KEY,
 Name Varchar (100),
 contactHours int,
 InstructorID int,
-Foreign Key (InstructorID) references Instructor(EmpID)
+Foreign Key (InstructorID) references Instructor(EmpID) on delete CASCADE
 );
 
 alter table Course
 RENAME column CouseId to CourseID;
 
-Create table Take(
+Create table IF NOT EXISTS Take(
 StudentID int,
 CourseID int,
 Grade Varchar(2),
 Primary KEY (StudentID, CourseID),
-Foreign KEY (StudentID) REFERENCES Student(RegNumber),
-Foreign KEY (CourseID) References course(CourseID)
+Foreign KEY (StudentID) REFERENCES Student(RegNumber) on delete CASCADE,
+Foreign KEY (CourseID) References course(CourseID) on delete CASCADE
 );
 
 
