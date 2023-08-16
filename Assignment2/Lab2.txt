@@ -1,0 +1,111 @@
+sois@sois-VirtualBox:~$ jps
+32700 Jps
+
+sois@sois-VirtualBox:~$ start-dfs.sh && start-yarn.sh
+Starting namenodes on [localhost]
+Starting datanodes
+Starting secondary namenodes [sois-VirtualBox]
+Starting resourcemanager
+Starting nodemanagers
+
+
+sois@sois-VirtualBox:~$ jps
+7536 NameNode
+10016 Jps
+8609 SecondaryNameNode
+9620 ResourceManager
+8263 DataNode
+9791 NodeManager
+
+sois@sois-VirtualBox:~$ hdfs dfs -mkdir /user/test_dir
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/
+Found 2 items
+drwxr-xr-x   - sois supergroup          0 2021-01-15 16:26 /user/hive
+drwxr-xr-x   - sois supergroup          0 2023-08-16 14:42 /user/test_dir
+
+sois@sois-VirtualBox:~$ gedit lab2.txt
+
+sois@sois-VirtualBox:~$ gedit lab2.txt
+
+sois@sois-VirtualBox:~$ ls
+derby.log  eclipse-workspace    input         Pictures   Videos
+Desktop    examples.desktop     lab2.txt      Public
+Documents  get-pip.py           metastore_db  snap
+Downloads  hadoop-3.2.1.tar.gz  Music         Templates
+
+
+sois@sois-VirtualBox:~$ hdfs dfs -put /home/sois/lab2.txt /user/test_dir
+2023-08-16 14:50:35,758 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/
+Found 2 items
+drwxr-xr-x   - sois supergroup          0 2021-01-15 16:26 /user/hive
+drwxr-xr-x   - sois supergroup          0 2023-08-16 14:50 /user/test_dir
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/test_dir
+Found 1 items
+-rw-r--r--   1 sois supergroup         27 2023-08-16 14:50 /user/test_dir/lab2.txt
+
+sois@sois-VirtualBox:~$ gedit t1.txt
+
+sois@sois-VirtualBox:~$ gedit t2.txt
+
+sois@sois-VirtualBox:~$ hdfs dfs -put t1.txt t2.txt /user/test_dir
+2023-08-16 14:55:49,851 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-16 14:55:50,150 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/test_dir
+Found 3 items
+-rw-r--r--   1 sois supergroup         27 2023-08-16 14:50 /user/test_dir/lab2.txt
+-rw-r--r--   1 sois supergroup          6 2023-08-16 14:55 /user/test_dir/t1.txt
+-rw-r--r--   1 sois supergroup          7 2023-08-16 14:55 /user/test_dir/t2.txt
+
+sois@sois-VirtualBox:~$ hdfs dfs -cat /user/test_dir/lab2.txt
+2023-08-16 15:03:50,185 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Hey.... Welcome to ABD LAb
+
+
+sois@sois-VirtualBox:~$ hdfs dfs -get /user/test_dir/lab2.txt /home/sois/Desktop/
+2023-08-16 15:08:06,526 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/test_dir
+Found 3 items
+-rw-r--r--   1 sois supergroup         27 2023-08-16 14:50 /user/test_dir/lab2.txt
+-rw-r--r--   1 sois supergroup          6 2023-08-16 14:55 /user/test_dir/t1.txt
+-rw-r--r--   1 sois supergroup          7 2023-08-16 14:55 /user/test_dir/t2.txt
+
+sois@sois-VirtualBox:~$ hdfs dfs -cp /user/test_dir/lab2.txt /user/test_dir/labUpdated2.txt
+2023-08-16 15:23:13,610 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-16 15:23:13,858 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/test_dir/
+Found 4 items
+-rw-r--r--   1 sois supergroup         27 2023-08-16 14:50 /user/test_dir/lab2.txt
+-rw-r--r--   1 sois supergroup         27 2023-08-16 15:23 /user/test_dir/labUpdated2.txt
+-rw-r--r--   1 sois supergroup          6 2023-08-16 14:55 /user/test_dir/t1.txt
+-rw-r--r--   1 sois supergroup          7 2023-08-16 14:55 /user/test_dir/t2.txt
+
+sois@sois-VirtualBox:~$ hdfs dfs -mv /user/test_dir/lab2.txt /user/test_dir/labUpdated3.txt
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/test_dir/
+Found 4 items
+-rw-r--r--   1 sois supergroup         27 2023-08-16 15:23 /user/test_dir/labUpdated2.txt
+-rw-r--r--   1 sois supergroup         27 2023-08-16 14:50 /user/test_dir/labUpdated3.txt
+-rw-r--r--   1 sois supergroup          6 2023-08-16 14:55 /user/test_dir/t1.txt
+-rw-r--r--   1 sois supergroup          7 2023-08-16 14:55 /user/test_dir/t2.txt
+
+sois@sois-VirtualBox:~$ hdfs dfs -cat /user/test_dir/labUpdated3.txt
+2023-08-16 15:27:45,384 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+Hey.... Welcome to ABD LAb
+
+sois@sois-VirtualBox:~$ hdfs dfs -rm /user/test_dir/labUpdated3.txt 
+Deleted /user/test_dir/labUpdated3.txt
+
+sois@sois-VirtualBox:~$ hdfs dfs -ls /user/test_dir/
+Found 3 items
+-rw-r--r--   1 sois supergroup         27 2023-08-16 15:23 /user/test_dir/labUpdated2.txt
+-rw-r--r--   1 sois supergroup          6 2023-08-16 14:55 /user/test_dir/t1.txt
+-rw-r--r--   1 sois supergroup          7 2023-08-16 14:55 /user/test_dir/t2.txt
+
