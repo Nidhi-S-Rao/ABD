@@ -1,0 +1,342 @@
+sois@sois-VirtualBox:~$ sudo mysql -u root -p
+[sudo] password for sois: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 5.7.42-0ubuntu0.18.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use retail_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_retail_db |
++---------------------+
+| categories          |
+| customers           |
+| departments         |
+| order_items         |
+| orders              |
+| products            |
++---------------------+
+6 rows in set (0.00 sec)
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'msis'@'localhost' IDENTIFIED BY 'bda23'
+    -> ;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+
+
+sois@sois-VirtualBox:~$ start-dfs.sh && start-yarn.sh
+Starting namenodes on [localhost]
+localhost: namenode is running as process 2664.  Stop it first.
+Starting datanodes
+localhost: datanode is running as process 2826.  Stop it first.
+Starting secondary namenodes [sois-VirtualBox]
+sois-VirtualBox: secondarynamenode is running as process 3044.  Stop it first.
+Starting resourcemanager
+resourcemanager is running as process 3338.  Stop it first.
+Starting nodemanagers
+localhost: nodemanager is running as process 3504.  Stop it first.
+sois@sois-VirtualBox:~$ jps
+3504 NodeManager
+3044 SecondaryNameNode
+2664 NameNode
+5129 Jps
+2826 DataNode
+3338 ResourceManager
+sois@sois-VirtualBox:~$ sqoop list-databases --connect jdbc:mysql://localhost?useSSL=false --username msis --password bda23
+Warning: /opt/sqoop/../hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /opt/sqoop/../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /opt/sqoop/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /opt/sqoop/../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+/opt/hadoop/libexec/hadoop-functions.sh: line 2366: HADOOP_ORG.APACHE.SQOOP.SQOOP_USER: bad substitution
+/opt/hadoop/libexec/hadoop-functions.sh: line 2461: HADOOP_ORG.APACHE.SQOOP.SQOOP_OPTS: bad substitution
+2023-08-23 14:53:36,810 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
+2023-08-23 14:53:37,056 WARN tool.BaseSqoopTool: Setting your password on the command-line is insecure. Consider using -P instead.
+2023-08-23 14:53:37,298 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+information_schema
+Programs
+demo
+demo2
+mysql
+performance_schema
+retail_db
+sys
+sois@sois-VirtualBox:~$ sqoop list-tables --connect jdbc:mysql://localhost/retail_db?useSSL=false --username msis --password bda23
+Warning: /opt/sqoop/../hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /opt/sqoop/../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /opt/sqoop/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /opt/sqoop/../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+/opt/hadoop/libexec/hadoop-functions.sh: line 2366: HADOOP_ORG.APACHE.SQOOP.SQOOP_USER: bad substitution
+/opt/hadoop/libexec/hadoop-functions.sh: line 2461: HADOOP_ORG.APACHE.SQOOP.SQOOP_OPTS: bad substitution
+2023-08-23 14:56:11,650 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
+2023-08-23 14:56:11,921 WARN tool.BaseSqoopTool: Setting your password on the command-line is insecure. Consider using -P instead.
+2023-08-23 14:56:12,159 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+categories
+customers
+departments
+order_items
+orders
+products
+sois@sois-VirtualBox:~$ sqoop import --connect jdbc:mysql://localhost/retail_db?useSSL=false --username msis --password bda23 --table orders --target-dir '/user/sqoop1'
+Warning: /opt/sqoop/../hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /opt/sqoop/../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /opt/sqoop/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /opt/sqoop/../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+/opt/hadoop/libexec/hadoop-functions.sh: line 2366: HADOOP_ORG.APACHE.SQOOP.SQOOP_USER: bad substitution
+/opt/hadoop/libexec/hadoop-functions.sh: line 2461: HADOOP_ORG.APACHE.SQOOP.SQOOP_OPTS: bad substitution
+2023-08-23 15:15:04,319 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
+2023-08-23 15:15:04,621 WARN tool.BaseSqoopTool: Setting your password on the command-line is insecure. Consider using -P instead.
+2023-08-23 15:15:04,872 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+2023-08-23 15:15:04,873 INFO tool.CodeGenTool: Beginning code generation
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+2023-08-23 15:15:05,675 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `orders` AS t LIMIT 1
+2023-08-23 15:15:05,821 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `orders` AS t LIMIT 1
+2023-08-23 15:15:05,860 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /opt/hadoop
+Note: /tmp/sqoop-sois/compile/7562685bc8bb733338d1744e98bfeea7/orders.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+2023-08-23 15:15:10,564 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-sois/compile/7562685bc8bb733338d1744e98bfeea7/orders.jar
+2023-08-23 15:15:10,599 WARN manager.MySQLManager: It looks like you are importing from mysql.
+2023-08-23 15:15:10,599 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+2023-08-23 15:15:10,599 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+2023-08-23 15:15:10,599 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+2023-08-23 15:15:10,606 INFO mapreduce.ImportJobBase: Beginning import of orders
+2023-08-23 15:15:10,607 INFO Configuration.deprecation: mapred.job.tracker is deprecated. Instead, use mapreduce.jobtracker.address
+2023-08-23 15:15:10,932 INFO Configuration.deprecation: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+2023-08-23 15:15:12,372 INFO Configuration.deprecation: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+2023-08-23 15:15:12,617 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+2023-08-23 15:15:13,616 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/sois/.staging/job_1692781880988_0001
+2023-08-23 15:15:13,911 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:14,682 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:14,790 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:14,888 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:14,971 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:15,056 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:15,245 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:15,271 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:15,346 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:15,447 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:15,470 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:15,513 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:15,529 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.closeInternal(DataStreamer.java:847)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:843)
+2023-08-23 15:15:15,559 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:15,650 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:16,183 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:16,268 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:16,378 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:16,404 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:16,452 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:16,464 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:16,498 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:16,986 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,051 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,525 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,571 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,602 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:17,631 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,696 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,744 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,785 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:17,817 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:17,875 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:18,336 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:18,392 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:18,841 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:18,849 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:18,893 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:18,973 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,047 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,105 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,171 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,204 WARN hdfs.DataStreamer: DataStreamer Exception
+java.nio.channels.ClosedByInterruptException
+	at java.nio.channels.spi.AbstractInterruptibleChannel.end(AbstractInterruptibleChannel.java:202)
+	at sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:477)
+	at org.apache.hadoop.net.SocketOutputStream$Writer.performIO(SocketOutputStream.java:63)
+	at org.apache.hadoop.net.SocketIOWithTimeout.doIO(SocketIOWithTimeout.java:142)
+	at org.apache.hadoop.net.SocketOutputStream.write(SocketOutputStream.java:159)
+	at org.apache.hadoop.net.SocketOutputStream.write(SocketOutputStream.java:117)
+	at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)
+	at java.io.BufferedOutputStream.flush(BufferedOutputStream.java:140)
+	at java.io.DataOutputStream.flush(DataOutputStream.java:123)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:775)
+2023-08-23 15:15:19,256 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,299 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,313 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.closeInternal(DataStreamer.java:847)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:843)
+2023-08-23 15:15:19,339 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,424 INFO db.DBInputFormat: Using read commited transaction isolation
+2023-08-23 15:15:19,424 INFO db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(`order_id`), MAX(`order_id`) FROM `orders`
+2023-08-23 15:15:19,443 INFO db.IntegerSplitter: Split size: 17220; Num splits: 4 from: 1 to: 68883
+2023-08-23 15:15:19,505 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,517 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:19,539 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:19,562 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1257)
+	at java.lang.Thread.join(Thread.java:1331)
+	at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+	at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+	at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2023-08-23 15:15:19,563 INFO mapreduce.JobSubmitter: number of splits:4
+2023-08-23 15:15:20,010 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2023-08-23 15:15:20,096 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1692781880988_0001
+2023-08-23 15:15:20,097 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2023-08-23 15:15:20,605 INFO conf.Configuration: resource-types.xml not found
+2023-08-23 15:15:20,611 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2023-08-23 15:15:21,365 INFO impl.YarnClientImpl: Submitted application application_1692781880988_0001
+2023-08-23 15:15:21,557 INFO mapreduce.Job: The url to track the job: http://sois-VirtualBox:8088/proxy/application_1692781880988_0001/
+2023-08-23 15:15:21,566 INFO mapreduce.Job: Running job: job_1692781880988_0001
+2023-08-23 15:15:35,917 INFO mapreduce.Job: Job job_1692781880988_0001 running in uber mode : false
+2023-08-23 15:15:35,918 INFO mapreduce.Job:  map 0% reduce 0%
+2023-08-23 15:16:01,321 INFO mapreduce.Job:  map 25% reduce 0%
+2023-08-23 15:16:04,420 INFO mapreduce.Job:  map 50% reduce 0%
+2023-08-23 15:16:05,427 INFO mapreduce.Job:  map 75% reduce 0%
+2023-08-23 15:16:06,432 INFO mapreduce.Job:  map 100% reduce 0%
+2023-08-23 15:16:06,467 INFO mapreduce.Job: Job job_1692781880988_0001 completed successfully
+2023-08-23 15:16:06,631 INFO mapreduce.Job: Counters: 34
+	File System Counters
+		FILE: Number of bytes read=0
+		FILE: Number of bytes written=938164
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=469
+		HDFS: Number of bytes written=2999944
+		HDFS: Number of read operations=24
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=8
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Killed map tasks=1
+		Launched map tasks=4
+		Other local map tasks=4
+		Total time spent by all maps in occupied slots (ms)=98496
+		Total time spent by all reduces in occupied slots (ms)=0
+		Total time spent by all map tasks (ms)=98496
+		Total vcore-milliseconds taken by all map tasks=98496
+		Total megabyte-milliseconds taken by all map tasks=100859904
+	Map-Reduce Framework
+		Map input records=68883
+		Map output records=68883
+		Input split bytes=469
+		Spilled Records=0
+		Failed Shuffles=0
+		Merged Map outputs=0
+		GC time elapsed (ms)=1219
+		CPU time spent (ms)=6950
+		Physical memory (bytes) snapshot=521555968
+		Virtual memory (bytes) snapshot=10252623872
+		Total committed heap usage (bytes)=251920384
+		Peak Map Physical memory (bytes)=131317760
+		Peak Map Virtual memory (bytes)=2563268608
+	File Input Format Counters 
+		Bytes Read=0
+	File Output Format Counters 
+		Bytes Written=2999944
+2023-08-23 15:16:06,652 INFO mapreduce.ImportJobBase: Transferred 2.861 MB in 54.2404 seconds (54.0121 KB/sec)
+2023-08-23 15:16:06,662 INFO mapreduce.ImportJobBase: Retrieved 68883 records.
+sois@sois-VirtualBox:~$ stop-dfs.sh && stop-yarn.sh
+Stopping namenodes on [localhost]
+Stopping datanodes
+Stopping secondary namenodes [sois-VirtualBox]
+Stopping nodemanagers
+localhost: WARNING: nodemanager did not stop gracefully after 5 seconds: Trying to kill with kill -9
+Stopping resourcemanager
+
+
