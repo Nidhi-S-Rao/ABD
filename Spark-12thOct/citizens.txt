@@ -1,0 +1,3 @@
+Nidhi 01/01/1999 12345678890 xyz@gmail.com Karnataka
+Kavya 02/01/1999 23456783909 kjh@gmail.com TamilNadu
+Neel 03/01/1999 2134567890 ned@gmail.com Karnataka
