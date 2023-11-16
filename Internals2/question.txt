@@ -1,0 +1,4 @@
+Design a pyspark application to monitor real-time data from weather sensors. 
+App should include data producer and analysis modules. 
+Data need to be generated are placeName, date and time, temperature, wind speed, humidity and precipitation.
+Generate alarms if temperature crosses 45C or wind speed is more than 30kmph. Need to capture atleast for 5 cities.
